@@ -4,6 +4,11 @@ BeamLab is static HTML, CSS and JavaScript with embedded model weights. It
 needs no build step, Supabase, API key or inference server. Relative asset paths
 allow it to run at a project URL or beneath a portfolio subdirectory.
 
+The prepared deployment is at `https://cowelljoshua.github.io/beamlab/`, served
+from `public/beamlab/` in the existing portfolio's GitHub Pages build. The
+standalone source repository is `https://github.com/cowelljoshua/beamlab`.
+The Projects page opens the demo directly. No second Pages site is required.
+
 ## Standalone GitHub Pages
 
 Push this repository to GitHub, then choose **Settings → Pages → Deploy from a

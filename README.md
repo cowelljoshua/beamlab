@@ -5,6 +5,10 @@ deflection and root bending stress of a rectangular cantilever. Change five
 design inputs in the browser, compare predictions with mechanics equations,
 inspect test errors, and export a case.
 
+[Live demo](https://cowelljoshua.github.io/beamlab/) ·
+[Beginner guide](https://cowelljoshua.github.io/beamlab/docs/BEGINNER_GUIDE.html) ·
+[Source repository](https://github.com/cowelljoshua/beamlab)
+
 **Start the demo:** open `index.html` in a browser. It works offline, with no
 installation or backend. The trained model is already included.
 

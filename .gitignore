@@ -11,5 +11,6 @@ reports/premium-audit.json
 reports/browser-verification.json
 reports/browser-mobile.png
 reports/browser-validation.png
+reports/guide-preview.png
 reports/*.pdf
 dist/
