@@ -1,0 +1,16 @@
+/* Generated from DESIGN.md; do not edit. */
+:root {
+  --color-ink: #172f43;
+  --color-muted: #526877;
+  --color-primary: #185f87;
+  --color-canvas: #edf3f6;
+  --color-surface: #ffffff;
+  --color-accent: #ad4f26;
+  --color-line: #ccd9e1;
+  --font-display: Bahnschrift, Arial, sans-serif;
+  --font-body: Segoe UI, Arial, sans-serif;
+  --font-data: Consolas, monospace;
+  --radius-control: 6px;
+  --radius-panel: 14px;
+  --space-unit: 8px;
+}

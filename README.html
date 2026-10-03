@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeamLab — a neural network for mechanical engineering · BeamLab</title><link rel="stylesheet" href="web/tokens.css"><link rel="stylesheet" href="web/style.css"><link rel="stylesheet" href="web/reading.css"></head>
+<body><header class="masthead"><a class="brand" href="index.html">BeamLab</a><a href="index.html#learn">Back to the interactive demo</a></header>
+<main class="reading"><p class="eyebrow">BEAMLAB / PROJECT NOTES</p><h1>BeamLab — a neural network for mechanical engineering</h1>
+<p>A working engineering portfolio project: a neural network predicts the tip
+deflection and root bending stress of a rectangular cantilever. Change five
+design inputs in the browser, compare predictions with mechanics equations,
+inspect test errors, and export a case.</p>
+<p><strong>Start the demo:</strong> open <code>index.html</code> in a browser. It works offline, with no
+installation or backend. The trained model is already included.</p>
+<p><img src="reports/demo-desktop.png" alt="BeamLab design explorer"></p>
+<p><strong>New to AI?</strong> Read <a href="docs/BEGINNER_GUIDE.html">the beginner guide</a>, then use the
+demo&#39;s <strong>How it works</strong> view. See <a href="docs/PORTFOLIO.html">portfolio preparation</a> for
+resume wording, a 90-second demo and interview questions.</p>
+<h2>What is real</h2>
+<ul>
+<li>NumPy implementation of forward propagation, backpropagation and Adam; no
+prebuilt neural-network training API. Architecture: <strong>5 → 64 → 64 → 2</strong>.</li>
+<li><strong>10,000 synthetic equation-generated cases</strong>, with 6,000 training, 2,000
+validation and 2,000 test cases. No ANSYS data was used for training.</li>
+<li>Frozen seeds, train-only preprocessing, validation-selected checkpoint,
+a linear baseline, per-output error metrics and all test predictions.</li>
+<li><strong>18 completed ANSYS 2026 R1 solves</strong>: six cases at 4, 8 and 16 BEAM188 elements,
+including support-reaction checks. See <a href="reports/ansys_verification.json">verification data</a>.</li>
+<li>JavaScript runs the saved weights in the browser. Tests compare its output
+with NumPy to an absolute tolerance of 1e-9.</li>
+</ul>
+<h2>Measured held-out performance</h2>
+<table>
+<thead>
+<tr>
+<th>Output</th>
+<th align="right">Mean absolute % error</th>
+<th align="right">95th percentile % error</th>
+<th align="right">Worst % error</th>
+<th align="right">R²</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Tip deflection</td>
+<td align="right">0.57%</td>
+<td align="right">1.53%</td>
+<td align="right">10.49%</td>
+<td align="right">0.99992</td>
+</tr>
+<tr>
+<td>Root bending stress</td>
+<td align="right">0.40%</td>
+<td align="right">1.24%</td>
+<td align="right">10.07%</td>
+<td align="right">0.99995</td>
+</tr>
+</tbody></table>
+<p>These errors are relative to the synthetic analytical labels, not experiments.
+They are not guaranteed error bounds. The network&#39;s maximum difference from
+ANSYS across the six verification designs was 1.48% for deflection and 1.21%
+for bending stress. The largest ANSYS deflection difference from the equation
+was 0.54%; BEAM188 includes transverse shear and the labels do not.</p>
+<p><strong>Engineering judgment:</strong> closed-form equations are faster, simpler and exact
+under this problem&#39;s assumptions. A log-input linear model could also recover
+these power laws. The value of this project is demonstrating a verified
+surrogate-model workflow, not claiming AI improves a simple beam formula.</p>
+<h2>Reproduce the training</h2>
+<p>Python 3.12 and NumPy 2.4.4 were used. Node.js is only needed for the JS test.
+No GPU, cloud service, training-data download or ANSYS license is needed to train.</p>
+<pre><code class="language-powershell">python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements.txt
+.\.venv\Scripts\python train.py
+.\.venv\Scripts\python -m unittest discover -s tests -v
+node tests/test_browser_model.cjs
+</code></pre>
+<p>The completed reference training run took about 23 seconds on this machine;
+your time and floating-point results may vary. <code>train.py</code> replaces the saved
+dataset, model and metrics, so save your experiment outputs before a rerun.
+All defaults and random seeds are in source. The best validation checkpoint
+was epoch 500. Test data was evaluated after that choice; no test-driven tuning.</p>
+<p>Optional ANSYS reproduction (installed licensed MAPDL required):</p>
+<pre><code class="language-powershell">python ansys/verify.py --exe &quot;C:/Program Files/ANSYS Inc/v261/ansys/bin/winx64/ANSYS261.exe&quot;
+</code></pre>
+<p>To serve locally instead of opening the file:</p>
+<pre><code class="language-powershell">python -m http.server 8765 --bind 127.0.0.1
+</code></pre>
+<p>Open <code>http://127.0.0.1:8765</code>. See <a href="docs/DEPLOYMENT.html">deployment instructions</a>
+for GitHub Pages and portfolio embedding. No Supabase project is required.</p>
+<h2>Repository map</h2>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>beamnet/physics.py</code></td>
+<td>Units, equations, training envelope and data generation</td>
+</tr>
+<tr>
+<td><code>beamnet/network.py</code></td>
+<td>Neural-network math and optimizer</td>
+</tr>
+<tr>
+<td><code>train.py</code></td>
+<td>Split, preprocessing, training, selection and evaluation</td>
+</tr>
+<tr>
+<td><code>artifacts/model.json</code></td>
+<td>Actual learned weights and scaling constants</td>
+</tr>
+<tr>
+<td><code>data/dataset.npz</code></td>
+<td>Generated data and exact split indices</td>
+</tr>
+<tr>
+<td><code>web/core.js</code></td>
+<td>Browser inference and domain checks</td>
+</tr>
+<tr>
+<td><code>web/app.js</code></td>
+<td>Demo interaction and evidence views</td>
+</tr>
+<tr>
+<td><code>reports/metrics.json</code></td>
+<td>Metrics, loss history, seeds, worst cases and slices</td>
+</tr>
+<tr>
+<td><code>reports/test_predictions.csv</code></td>
+<td>All 2,000 held-out predictions</td>
+</tr>
+<tr>
+<td><code>ansys/verification.inp</code></td>
+<td>Reproducible APDL verification models</td>
+</tr>
+<tr>
+<td><code>docs/MODEL_CARD.md</code></td>
+<td>Assumptions, use limits and provenance</td>
+</tr>
+</tbody></table>
+<h2>Scope</h2>
+<p>Straight prismatic rectangular beam; ideal fixed support; static end point
+load; linear elasticity; small deflection; no self-weight. Inputs are positive
+magnitudes. L/h must be at least 10, reference deflection/length at most 2%,
+and reference bending stress at most 200 MPa. The latter is a data filter,
+not a yield-strength or safety criterion. The UI withholds out-of-domain
+predictions. No fatigue, buckling, plasticity, joints or code compliance.</p>
+<h2>Sources</h2>
+<ul>
+<li><a href="https://www.purdue.edu/freeform/me323/wp-content/uploads/sites/2/2018/10/ME323_F18_Hw7_final.pdf">Purdue mechanics-of-materials beam deflection reference</a>.</li>
+<li><a href="https://ansyshelp.ansys.com/public/views/secured/corp/v261/en/ans_elem/Hlp_E_BEAM188.html">ANSYS BEAM188 element reference</a>.</li>
+<li><a href="https://arxiv.org/abs/1412.6980">Adam optimizer paper</a>.</li>
+</ul>
+<p>Developed with AI assistance. Treat the code, experiments and explanations as
+material to understand and extend before claiming independent authorship or
+expertise. This project has no affiliation with or endorsement from GLE.</p>
+</main><footer class="reading-footer"><span>Mechanics, code &amp; learned models</span><a href="README.md" download>Download Markdown source ↓</a></footer></body></html>

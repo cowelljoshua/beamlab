@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+*.pyc
+ansys/runs/
+*.log
+portfolio-integration/
+reports/ansys_solver_output.txt
+reports/premium-audit.json
+reports/browser-verification.json
+reports/browser-mobile.png
+reports/browser-validation.png
+reports/*.pdf
+dist/

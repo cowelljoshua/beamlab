@@ -1,0 +1,13 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["web", "index.html"],
+  "locale": "en-US",
+  "canonicalMap": "DESIGN.md",
+  "requiredCapabilities": ["Form", "Scrollbar", "Toast"],
+  "requiredCommands": ["model", "parity"],
+  "commands": {
+    "model": "python -m unittest discover -s tests -v",
+    "parity": "node tests/test_browser_model.cjs"
+  },
+  "evidence": { "failurePaths": "tests/test_browser_model.cjs" }
+}

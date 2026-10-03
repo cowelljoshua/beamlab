@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub Pages and portfolio integration · BeamLab</title><link rel="stylesheet" href="../web/tokens.css"><link rel="stylesheet" href="../web/style.css"><link rel="stylesheet" href="../web/reading.css"></head>
+<body><header class="masthead"><a class="brand" href="../index.html">BeamLab</a><a href="../index.html#learn">Back to the interactive demo</a></header>
+<main class="reading"><p class="eyebrow">BEAMLAB / PROJECT NOTES</p><h1>GitHub Pages and portfolio integration</h1>
+<p>BeamLab is static HTML, CSS and JavaScript with embedded model weights. It
+needs no build step, Supabase, API key or inference server. Relative asset paths
+allow it to run at a project URL or beneath a portfolio subdirectory.</p>
+<h2>Standalone GitHub Pages</h2>
+<p>Push this repository to GitHub, then choose <strong>Settings → Pages → Deploy from a
+branch → main → /(root)</strong>. The <code>.nojekyll</code> file keeps the site as static files.
+GitHub Pages will provide the published URL. The files are public on a public
+repository; no credentials or private engineering data belong in the project.</p>
+<p>See <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site">GitHub&#39;s official publishing-source instructions</a>.</p>
+<h2>Existing portfolio</h2>
+<p>Copy <code>index.html</code>, <code>web/</code>, <code>docs/</code>, <code>reports/metrics.json</code>,
+<code>reports/test_predictions.csv</code>, <code>reports/ansys_verification.json</code>,
+<code>ansys/verification.inp</code> and <code>README.md</code> into a public directory such as
+<code>public/beamlab/</code> in a Vite portfolio. Keep their relative structure.</p>
+<p>An ordinary “Try BeamLab” link to <code>/beamlab/</code> is the simplest option. To embed:</p>
+<pre><code class="language-html">&lt;iframe
+  src=&quot;/beamlab/&quot;
+  title=&quot;BeamLab neural-network beam design explorer&quot;
+  width=&quot;100%&quot;
+  height=&quot;1100&quot;
+  loading=&quot;lazy&quot;
+  style=&quot;border: 1px solid #ccd9e1; border-radius: 14px;&quot;
+&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href=&quot;/beamlab/&quot;&gt;Open the full-size demo&lt;/a&gt;&lt;/p&gt;
+</code></pre>
+<p>The full-size link supports smaller screens. No cross-origin messaging or
+personal-data collection is necessary. Source, test dataset and Python scripts
+can remain in the standalone project repository.</p>
+<h2>Local demo and video fallback</h2>
+<p>Double-click <code>index.html</code> or serve this folder with
+<code>python -m http.server 8765 --bind 127.0.0.1</code>. The demo works offline after the
+files are available. Follow the 90-second script in <code>PORTFOLIO.md</code> for a video.</p>
+</main><footer class="reading-footer"><span>Mechanics, code &amp; learned models</span><a href="DEPLOYMENT.md" download>Download Markdown source ↓</a></footer></body></html>
